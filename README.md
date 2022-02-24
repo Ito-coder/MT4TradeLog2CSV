@@ -16,15 +16,16 @@ MT4のTradeLog(レポート)をEAのmagicごとに集計して、CSVに出力し
 - 4.ご愛用の表計算ソフトに貼り付けて使います。  
 ![グラフ](doc/sample.png)  
 - 動作確認用のサンプルなど  
-[output](doc/output.csv)  
 [レポートファイル](doc/sample.htm)  
-[グラフ作成](doc/sample.ods)  
+[output](doc/output.csv)  
+[グラフ作成.ods](doc/sample.ods)  
 
 # Note
 OANDA JAPANの口座で動作確認。  
 スワップは他社口座では対応できない可能性大。  
 基本自分用なので、細かいところは自身で修正して使ってください。  
 要望があればいくらかは対応します。  
+これまで、libreofficeでコピペ、コピペして作ってたけど、これで楽になります＾＾  
 
 ## Author
 [Ito](https://github.com/Ito-coder)
