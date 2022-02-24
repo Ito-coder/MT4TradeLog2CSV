@@ -8,13 +8,17 @@ MT4のTradeLog(レポート)をEAのmagicごとに集計して、CSVに出力し
 
 # Usage
 - 1.MT4でレポートの保存をします。  
-![レポート](doc/SaveReport.png) 
+![レポート](doc/SaveReport.png)  
 - 2.ドラッグ・アンド・ドロップで起動します。  
-![DnD](doc/DnD.png) 
-- 3.集計されoutput.csvが作成されます。
-![output](doc/output.png) 
-- 4.ご愛用の表計算ソフトに貼り付けて使います。
-![グラフ](doc/sample.png) 
+![DnD](doc/DnD.png)  
+- 3.集計されoutput.csvが作成されます。  
+![output](doc/output.png)  
+- 4.ご愛用の表計算ソフトに貼り付けて使います。  
+![グラフ](doc/sample.png)  
+- 動作確認用のサンプルなど  
+[output](doc/output.csv)  
+[レポートファイル](doc/sample.htm)  
+[グラフ作成](doc/sample.ods)  
 
 # Note
 OANDA JAPANの口座で動作確認。  
