@@ -14,10 +14,6 @@ namespace MT4TradeLog2CSV
         public List<TradeLog> TradeDatas = new List<TradeLog>();
 
         public TradeLogManager() { }
-        public TradeLogManager(string filename)
-        {
-            Load(filename);
-        }
         public void Save(string filename)
         {//save
             try
@@ -92,7 +88,6 @@ namespace MT4TradeLog2CSV
         }
         public void UpdateHeader(string headerFilename = "header.csv")
         {
-            //マップ化
             Dictionary<int, List<TradeLog>> magic_map = new();
 
             foreach (var trade in TradeDatas)
@@ -102,7 +97,7 @@ namespace MT4TradeLog2CSV
             }
 
             //ヘッダ追加
-            if (File.Exists(headerFilename) == false) File.WriteAllText(headerFilename, "magic,-"+ Environment.NewLine + "Date,sum");
+            if (File.Exists(headerFilename) == false) File.WriteAllText(headerFilename, "magic,-" + Environment.NewLine + "Date,sum");
             var header_text = File.ReadAllLines(headerFilename);
             var header_split = header_text[header_text.Length - 2].Split(',').ToList();
             var header_magic = header_split.GetRange(2, header_split.Count - 2).Select(a => int.Parse(a)).ToList();
@@ -120,7 +115,6 @@ namespace MT4TradeLog2CSV
         }
         public void OutCSV(string outFilename, string headerFilename = "header.csv")
         {
-            //マップ化
             Dictionary<DateTime, List<TradeLog>> date_map = new();
             Dictionary<int, List<TradeLog>> magic_map = new();
 
@@ -132,7 +126,7 @@ namespace MT4TradeLog2CSV
                 magic_map[trade.Magic].Add(trade);
             }
 
-            //最大値最小値初期値
+            //最大値 最小値 初期値
             Dictionary<int, DateTime> magic_max_date = new();
             Dictionary<int, DateTime> magic_min_date = new();
             Dictionary<int, int> profits_sum = new();
@@ -174,7 +168,7 @@ namespace MT4TradeLog2CSV
                 {
                     buff.Append(",");
                     if (profits.ContainsKey(magic)) profits_sum[magic] += profits[magic];
-                    if (magic_min_date[magic] <= trades.Key && trades.Key <= magic_max_date[magic]) 
+                    if (magic_min_date[magic] <= trades.Key && trades.Key <= magic_max_date[magic])
                         buff.Append(profits_sum[magic]);//profit
                 }
                 buff.AppendLine();

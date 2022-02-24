@@ -10,23 +10,26 @@ namespace MT4TradeLog2CSV // Note: actual namespace depends on the project name.
             var outFilename = "output.csv";
             var tradeListFilename = "TradeLogs.bin";
 
-            var TradeDatas = new TradeLogManager(tradeListFilename);
-            Console.WriteLine("load:" + TradeDatas.TradeDatas.Count + "count");
             try
             {
+                var tradeLogManager = new TradeLogManager();
+
+                tradeLogManager.Load(tradeListFilename);
+                Console.WriteLine("load:" + tradeLogManager.TradeDatas.Count + "count");
+
                 for (var i = 0; i < args.Length; ++i)
                 {
                     Console.WriteLine("read:" + args[i]);
-                    TradeDatas.AppendMT4TradeLog(args[i]);
+                    tradeLogManager.AppendMT4TradeLog(args[i]);
                 }
 
-                TradeDatas.Save(tradeListFilename);
-                Console.WriteLine("save:" + TradeDatas.TradeDatas.Count + "count");
+                tradeLogManager.Save(tradeListFilename);
+                Console.WriteLine("save:" + tradeLogManager.TradeDatas.Count + "count");
 
-                TradeDatas.UpdateHeader();
+                tradeLogManager.UpdateHeader();
                 Console.WriteLine("UpdateHeader:");
 
-                TradeDatas.OutCSV(outFilename);
+                tradeLogManager.OutCSV(outFilename);
                 Console.WriteLine("outCSV:" + outFilename);
             }
             catch (Exception ex)
