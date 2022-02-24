@@ -17,8 +17,13 @@ MT4のTradeLog(レポート)をEAのmagicごとに集計して、CSVに出力し
 ![グラフ](doc/sample.png)  
 - 動作確認用のサンプルなど  
 [レポートファイル](doc/sample.htm)  
-[output](doc/output.csv)  
+[output.csv](doc/output.csv)  
 [グラフ作成.ods](doc/sample.ods)  
+グラフ作成済のods。Sheet1にoutput.csvをコピペしてます。  
+使用例です。  
+[header.csv](header.csv)  
+header.csvは自動生成されますが、右端に追加するだけなので、既存項目の編集は有効です。  
+2行目にEAの名前付けてください。  
 
 # Note
 OANDA JAPANの口座で動作確認。  
