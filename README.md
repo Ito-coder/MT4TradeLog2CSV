@@ -15,6 +15,10 @@ MT4のTradeLog(レポート)をEAのmagicごとに集計して、CSVに出力し
 ![output](doc/output.png)  
 - 4.ご愛用の表計算ソフトに貼り付けて使います。  
 ![グラフ](doc/sample.png)  
+
+- [visual studio 2022](https://visualstudio.microsoft.com/ja/vs/whatsnew/)でビルドしてます。  
+html解析にAngleSharp使ってます。  
+
 - 動作確認用のサンプルなど  
 [レポートファイル](doc/sample.htm)  
 [output.csv](doc/output.csv)  
