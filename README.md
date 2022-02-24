@@ -22,7 +22,7 @@ MT4のTradeLog(レポート)をEAのmagicごとに集計して、CSVに出力し
 グラフ作成済のods。  
 Sheet1にoutput.csvをコピペしてます。  
 使用例です。  
-[header.csv](header.csv)  
+[header.csv](doc/header.csv)  
 header.csvは自動生成されますが、右端に追加するだけなので、既存項目の編集は有効です。  
 2行目にEAのコメントを拾ってますが、違っていたら直してください。  
 再度実行することで反映されます。  
