@@ -127,15 +127,15 @@ namespace MT4TradeLog2CSV
             }
 
             //最大値 最小値 初期値
-            Dictionary<int, DateTime> magic_max_date = new();
-            Dictionary<int, DateTime> magic_min_date = new();
+            //Dictionary<int, DateTime> magic_max_date = new();
+            //Dictionary<int, DateTime> magic_min_date = new();
             Dictionary<int, int> profits_sum = new();
             int profit_sum_all = 0;
 
             foreach (var magic_pair in magic_map.OrderBy(a => a.Key))
             {
-                magic_max_date[magic_pair.Key] = magic_pair.Value.Max(a => a.OpenTime.Date);
-                magic_min_date[magic_pair.Key] = magic_pair.Value.Min(a => a.OpenTime.Date);
+                //magic_max_date[magic_pair.Key] = magic_pair.Value.Max(a => a.OpenTime.Date);
+                //magic_min_date[magic_pair.Key] = magic_pair.Value.Min(a => a.OpenTime.Date);
                 profits_sum[magic_pair.Key] = 0;
             }
 
@@ -168,8 +168,8 @@ namespace MT4TradeLog2CSV
                 {
                     buff.Append(",");
                     if (profits.ContainsKey(magic)) profits_sum[magic] += profits[magic];
-                    if (magic_min_date[magic] <= trades.Key && trades.Key <= magic_max_date[magic])
-                        buff.Append(profits_sum[magic]);//profit
+                    //if (magic_min_date[magic] <= trades.Key && trades.Key <= magic_max_date[magic])
+                    if (profits_sum[magic] != 0) buff.Append(profits_sum[magic]);//profit
                 }
                 buff.AppendLine();
             }
