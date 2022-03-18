@@ -55,6 +55,7 @@ namespace MT4TradeLog2CSV
             var data = new TradeLog();
             foreach (var tr in doc.Body.GetElementsByTagName("tr"))
             {
+                if (tr.TextContent.Contains("Open Trades:")) return;//以下のデータは違う。
                 var td = tr.GetElementsByTagName("td");
                 if (td.Length == 14
                     && (td[2].TextContent == "sell" || td[2].TextContent == "buy")
