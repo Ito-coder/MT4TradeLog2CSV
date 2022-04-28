@@ -61,6 +61,7 @@ namespace MT4TradeLog2CSV
                     && (td[2].TextContent == "sell" || td[2].TextContent == "buy")
                     )
                 {//売買1行目
+                    data = new TradeLog();
                     data.Ticket = int.Parse(td[0].TextContent);
                     data.OpenTime = DateTime.Parse(td[1].TextContent);
                     data.Profit = int.Parse(td[13].TextContent.Replace(" ", ""));
@@ -72,19 +73,39 @@ namespace MT4TradeLog2CSV
                     data.Magic = int.Parse(td[1].TextContent);
                     data.Comment = td[2].TextContent;
                     if (TradeDatas.Any(a => a.Ticket == data.Ticket) == false) TradeDatas.Add(data);
-                    data = new TradeLog();
                 }
-                else if (td.Length == 5
-                    && (td[3].TextContent == "Financing" || td[3].TextContent == "Interest")
-                    )
-                {//スワップなど？
-                    data.Ticket = int.Parse(td[0].TextContent);
-                    data.OpenTime = DateTime.Parse(td[1].TextContent);
-                    data.Profit = int.Parse(td[4].TextContent.Replace(" ", ""));
-                    data.Magic = 0;
-                    data.Comment = "Interest";
-                    if (TradeDatas.Any(a => a.Ticket == data.Ticket) == false) TradeDatas.Add(data);
-                }
+                //balanceとして資金移動含むデータならば、おそらく正確なデータが得られる。
+                //スワップ、預け金の利息？、資金移動の分別は困難と思われる。
+                //Primary 退避資金にも利息が付いていると思われ、これのデータは取得していない。
+                //一旦、スワップなどのデータは入れないことにした。コメントアウト。
+                //else if (td.Length == 5
+                //    && td[2].TextContent == "balance"//これだけだと資金移動含む
+                //    //&& (td[3].TextContent == "Financing" || td[3].TextContent == "Interest")
+                //    )
+                //{//スワップなど？
+                //    data = new TradeLog();
+                //    data.Ticket = int.Parse(td[0].TextContent);
+                //    data.OpenTime = DateTime.Parse(td[1].TextContent);
+                //    data.Profit = int.Parse(td[4].TextContent.Replace(" ", ""));
+                //    data.Comment = td[3].TextContent;
+                //    data.Magic = data.Comment.GetHashCode();
+                //    switch (data.Comment) 
+                //    {
+                //        case "Interest":
+                //        case "Financing":
+                //        case "CLIENT_FUNDING":
+                //            //data.Magic = 0;
+                //            //break;
+                //        case "Balance update":
+                //        case "AddFunds":
+                //        case "DelFunds":
+                //        case "AddFundsTransfer":
+                //        case "DelFundsTransfer":
+                //        case "ACCOUNT_TRANSFER":
+                //            continue;//foreach
+                //    }
+                //    if (TradeDatas.Any(a => a.Ticket == data.Ticket) == false) TradeDatas.Add(data);
+                //}
             }
         }
         public void UpdateHeader(string headerFilename = "header.csv")
@@ -133,17 +154,15 @@ namespace MT4TradeLog2CSV
             Dictionary<int, int> profits_sum = new();
             int profit_sum_all = 0;
 
-            foreach (var magic_pair in magic_map.OrderBy(a => a.Key))
-            {
-                //magic_max_date[magic_pair.Key] = magic_pair.Value.Max(a => a.OpenTime.Date);
-                //magic_min_date[magic_pair.Key] = magic_pair.Value.Min(a => a.OpenTime.Date);
-                profits_sum[magic_pair.Key] = 0;
-            }
-
             //ヘッダ読み込み
             var header_text = File.ReadAllLines(headerFilename);
             var header_split = header_text[header_text.Length - 2].Split(',').ToList();
             var header_magic = header_split.GetRange(2, header_split.Count - 2).Select(a => int.Parse(a)).ToList();
+
+            foreach (var magic in header_magic)
+            {
+                profits_sum[magic] = 0;
+            }
 
             //出力
             StringBuilder buff = new();
