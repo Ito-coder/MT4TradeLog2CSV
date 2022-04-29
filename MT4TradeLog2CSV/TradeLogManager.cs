@@ -12,7 +12,8 @@ namespace MT4TradeLog2CSV
     public class TradeLogManager
     {
         public List<TradeLog> TradeDatas = new List<TradeLog>();
-
+        public int Closed_PL;
+        public int ProfitSum;
         public TradeLogManager() { }
         public void Save(string filename)
         {//save
@@ -65,6 +66,7 @@ namespace MT4TradeLog2CSV
                     data.Ticket = int.Parse(td[0].TextContent);
                     data.OpenTime = DateTime.Parse(td[1].TextContent);
                     data.Profit = int.Parse(td[13].TextContent.Replace(" ", ""));
+                    ProfitSum += data.Profit;
                 }
                 else if (td.Length == 3
                     && td[0].GetAttribute("colspan") == "9"
@@ -106,6 +108,13 @@ namespace MT4TradeLog2CSV
                 //    }
                 //    if (TradeDatas.Any(a => a.Ticket == data.Ticket) == false) TradeDatas.Add(data);
                 //}
+                else if (td.Length == 2
+                    && td[0].TextContent == "Closed P/L:"
+                    )
+                {//売買2行目//magic//comment
+                    Closed_PL = int.Parse(td[1].TextContent.Replace(" ", ""));
+                    return;//これ以下のデータは違う。
+                }
             }
         }
         public void UpdateHeader(string headerFilename = "header.csv")
