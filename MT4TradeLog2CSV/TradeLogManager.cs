@@ -12,8 +12,6 @@ namespace MT4TradeLog2CSV
     public class TradeLogManager
     {
         public List<TradeLog> TradeDatas = new List<TradeLog>();
-        public int Closed_PL;
-        public int ProfitSum;
         public TradeLogManager() { }
         public void Save(string filename)
         {//save
@@ -48,8 +46,10 @@ namespace MT4TradeLog2CSV
                 Console.WriteLine(ex.Message);
             }
         }
-        public void AppendMT4TradeLog(string filename)
+        public void AppendMT4TradeLog(string filename,out int ProfitSum,out int Closed_PL)
         {
+            ProfitSum = 0;
+            Closed_PL = 0;
             var html = File.ReadAllText(filename, System.Text.Encoding.UTF8);
             var doc = new HtmlParser().ParseDocument(html);
 
@@ -66,6 +66,7 @@ namespace MT4TradeLog2CSV
                     data.Ticket = int.Parse(td[0].TextContent);
                     data.OpenTime = DateTime.Parse(td[1].TextContent);
                     data.Profit = int.Parse(td[13].TextContent.Replace(" ", ""));
+                    data.Lot = double.Parse(td[3].TextContent);
                     ProfitSum += data.Profit;
                 }
                 else if (td.Length == 3
@@ -74,7 +75,10 @@ namespace MT4TradeLog2CSV
                 {//売買2行目//magic//comment
                     data.Magic = int.Parse(td[1].TextContent);
                     data.Comment = td[2].TextContent;
-                    if (TradeDatas.Any(a => a.Ticket == data.Ticket) == false) TradeDatas.Add(data);
+                    //if (TradeDatas.Any(a => a.Ticket == data.Ticket) == false) TradeDatas.Add(data);
+                    //古いデータを削除して更新する。
+                    TradeDatas.RemoveAll(a => a.Ticket == data.Ticket);
+                    TradeDatas.Add(data);
                 }
                 //balanceとして資金移動含むデータならば、おそらく正確なデータが得られる。
                 //スワップ、預け金の利息？、資金移動の分別は困難と思われる。
@@ -173,7 +177,7 @@ namespace MT4TradeLog2CSV
                 profits_sum[magic] = 0;
             }
 
-            //出力
+            //sum出力
             StringBuilder buff = new();
             buff.AppendJoin(Environment.NewLine, header_text);//header
             buff.AppendLine();
@@ -203,6 +207,32 @@ namespace MT4TradeLog2CSV
                 buff.AppendLine();
             }
             File.WriteAllText(outFilename, buff.ToString());
+
+            //lot出力
+            buff = new();
+            buff.AppendJoin(Environment.NewLine, header_text);//header
+            buff.AppendLine();
+
+            foreach (var trades in date_map.OrderBy(a => a.Key))
+            {
+                buff.Append(trades.Key.ToString("d"));//date
+                Dictionary<int, double> lots = new();
+                foreach (var trade in trades.Value)
+                {
+                    if (lots.ContainsKey(trade.Magic) == false) lots[trade.Magic] = 0;
+                    lots[trade.Magic] = trade.Lot;
+                }
+
+                buff.Append(",");//sumダミー
+
+                foreach (var magic in header_magic)
+                {
+                    buff.Append(",");
+                    if (lots.ContainsKey(magic)) buff.Append(lots[magic]);
+                }
+                buff.AppendLine();
+            }
+            File.WriteAllText(outFilename.Replace(".", "_lot."), buff.ToString());
         }
     }
     public class TradeLog
@@ -212,5 +242,6 @@ namespace MT4TradeLog2CSV
         public int Profit;
         public int Magic;
         public string Comment = "";
+        public double Lot;
     }
 }

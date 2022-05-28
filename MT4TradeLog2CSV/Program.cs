@@ -20,10 +20,9 @@ namespace MT4TradeLog2CSV // Note: actual namespace depends on the project name.
                 for (var i = 0; i < args.Length; ++i)
                 {
                     Console.WriteLine("read:" + args[i]);
-                    tradeLogManager.ProfitSum = 0;
-                    tradeLogManager.AppendMT4TradeLog(args[i]);
-                    Console.WriteLine("ProfitSum:" + tradeLogManager.ProfitSum + "  Closed P/L:" + tradeLogManager.Closed_PL);
-                    if (tradeLogManager.ProfitSum != tradeLogManager.Closed_PL)
+                    tradeLogManager.AppendMT4TradeLog(args[i], out var ProfitSum, out var Closed_PL);
+                    Console.WriteLine("ProfitSum:" + ProfitSum + "  Closed P/L:" + Closed_PL);
+                    if (ProfitSum != Closed_PL)
                     {
                         Console.WriteLine("ProfitSum 不一致");
                         Console.ReadKey();
