@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT4TradeLog2CSV", "MT4TradeLog2CSV\MT4TradeLog2CSV.csproj", "{3D1B5A10-D9BB-4AB5-80A8-ECE123FDA151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MT4TradeLog2CSV", "MT4TradeLog2CSV\MT4TradeLog2CSV.csproj", "{3D1B5A10-D9BB-4AB5-80A8-ECE123FDA151}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EA_LogReader", "EA_LogReader\EA_LogReader.csproj", "{31271489-42A3-4D4C-A569-453F87E1F20F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3D1B5A10-D9BB-4AB5-80A8-ECE123FDA151}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D1B5A10-D9BB-4AB5-80A8-ECE123FDA151}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D1B5A10-D9BB-4AB5-80A8-ECE123FDA151}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31271489-42A3-4D4C-A569-453F87E1F20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31271489-42A3-4D4C-A569-453F87E1F20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31271489-42A3-4D4C-A569-453F87E1F20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31271489-42A3-4D4C-A569-453F87E1F20F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
